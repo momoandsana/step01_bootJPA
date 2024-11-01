@@ -147,6 +147,36 @@ public class BoardRepTests {
     public void deleteByBno() {
         boardRep.deleteByBno(100L);
     }
+
+    /*
+    글번호 or 제목 에 해당하는 레코드 검색
+     */
+    @Test
+    @DisplayName("조건검색")
+    public void selectByBnoTitle() {
+        List<Board> list = boardRep.selectByBnoTitle(7L, "제목11");
+        list.forEach(board -> System.out.println(board));
+    }
+
+    /*
+    글번호, 제목, 작성자에 해당하는 레코드 검색
+     */
+    @Test
+    @DisplayName("여러 조건 검색")
+    public void multiWhere(){
+        List<Board> list = boardRep.multiWhere(Board.builder().bno(50L).writer("작성자11").title("제목20").build());
+        list.forEach(board -> System.out.println(board));
+    }
+
+    /*
+    전달된 글 번호보다 작고 전달된 작성자와 동일한 레코드 검색
+     */
+    @Test
+    @DisplayName("쿼레 메소드 test")
+    public void queryMethod(){
+        List<Board> list = boardRep.findByBnoLessThanAndWriter(50L, "작성자11");
+        list.forEach(board -> System.out.println(board));
+    }
 }
 
 

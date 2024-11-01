@@ -3,7 +3,10 @@ package web.mvc.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import web.mvc.domain.Board;
+
+import java.util.List;
 
 // 스프링 jpa -> 이렇게 만들면 기본 쿼리는 모두 만들어줌, 커스텀 쿼리는 따로 만들어야함
 public interface BoardRepository extends JpaRepository<Board, Long> {
@@ -26,6 +29,29 @@ JpaRepository 는 jpa 는 이 인터페이스를 구현하는 기본적인 CRUD 
     @Query(value="delete from Board b where b.bno>?1")// jpql 이기 때문에 대소문자 가림
     @Modifying
     void deleteByBno(Long bno);
+
+    /*
+    글번호 or 제목에 해당하는 레코드 검색
+     */
+    //@Query(value="select b from Board b where b.bno=?1 or b.title=?2")
+    @Query(value="select * from board where bno=?1 or title=?2",nativeQuery=true)// 해당 디비(여기서는 오라클) 문법으로 쿼리
+    List<Board> selectByBnoTitle(Long bno,String title);
+
+    /*
+    글번호, 제목, 작성자에 해당하는 레코드 검색
+     */
+    @Query(value="select b from Board b where b.bno=:#{#bo.bno} or b.title=:#{#bo.title} or b.writer=:#{#bo.writer}")
+    List<Board> multiWhere(@Param("bo") Board board);// 여기서 bo가 alias
+
+    // query method 작성
+    /*
+    전달된 글번호보다 작고 전달된 작성자와 동일한 레코드 검색
+    검색은 메소드 이름을 findByXXX로 시작
+
+    select * from board where bno<? and writer=?
+    이 자체가 코드이므로 추가적인 어노테이션들은 필요가 없음
+     */
+    List<Board> findByBnoLessThanAndWriter(Long bno,String title);
 }
 
 /*
