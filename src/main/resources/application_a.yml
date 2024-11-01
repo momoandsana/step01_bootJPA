@@ -1,0 +1,43 @@
+server:
+  port: 9000
+
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    username: kim
+    password: 1234
+    # tomcat:
+    #   initial-size: 10
+    #   max-active: 10
+    #   max-idle: 10
+    #   min-idle: 1
+    #   default-auto-commit: true
+
+    # hikari:
+    #   connection-timeout: 10000
+    #   maximum-pool-size: 5
+
+  jpa:
+    database-platform: org.hibernate.community.dialect.Oracle12cDialect
+    hibernate:
+      ddl-auto: none
+    generate-ddl: false
+    show-sql: true
+    database: oracle
+    # properties:
+    #   hibernate.temp.use_jdbc_metadata_defaults: false
+
+logging:
+  level:
+    org.hibernate: debug
