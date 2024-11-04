@@ -42,6 +42,15 @@ JpaRepository 는 jpa 는 이 인터페이스를 구현하는 기본적인 CRUD 
      */
     @Query(value="select b from Board b where b.bno=:#{#bo.bno} or b.title=:#{#bo.title} or b.writer=:#{#bo.writer}")
     List<Board> multiWhere(@Param("bo") Board board);// 여기서 bo가 alias
+    /*
+    @Query(value = "SELECT * FROM board WHERE bno = :bno OR title = :title OR writer = :writer", nativeQuery = true)
+    List<Board> multiWhere(
+    @Param("bno") Long bno,
+    @Param("title") String title,
+    @Param("writer") String writer
+    );
+
+     */
 
     // query method 작성
     /*
