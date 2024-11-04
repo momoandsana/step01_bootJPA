@@ -11,7 +11,7 @@ import java.util.List;
 
 // 스프링 jpa -> 이렇게 만들면 기본 쿼리는 모두 만들어줌, 커스텀 쿼리는 따로 만들어야함
 public interface BoardRepository extends JpaRepository<Board, Long>
-        , QuerydslPredicateExecutor<Board> {
+        , QuerydslPredicateExecutor<Board> { // 동적쿼리 및 조건 조합을 가능하게 해줌
 /*
 JpaRepository 는 jpa 는 이 인터페이스를 구현하는 기본적인 CRUD 메소드를 자동으로 제공함
 사용자가 바로
