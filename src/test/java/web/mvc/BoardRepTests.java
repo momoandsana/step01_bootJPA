@@ -1,5 +1,6 @@
 package web.mvc;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -15,14 +16,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import web.mvc.domain.Board;
 import web.mvc.repository.BoardRepository;
-import web.mvc.service.BoardService;
 
 import java.util.List;
 import java.util.Optional;
 
 //@SpringBootTest // 통합 테스트, 커밋이 기본, 롤백 x, 빈이 자동 주입됨->private final + @AllArgsConstructor 가 다 먹힘
 
-@DataJpaTest // 영속성 관련된 테스트,롤백이 기본
+@DataJpaTest // 영속성 관련된 테스트,롤백이 기본,-> jpa 관련 컴포턴느 및 리포지터리만 주입 받는다
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // 자동으로 잡힌 데이터베이스인 h2를 쓰지 않겠다
 @Rollback(value = false)
 @Slf4j
@@ -31,7 +31,7 @@ public class BoardRepTests {
 
     //spring data jpa 가 구현체를 생성해서 주입
     @Autowired
-    private BoardRepository boardRep;
+    private BoardRepository boardRep;// jpa 관련 컴포넌트이기 때문에 주입이 가능하다
 
     /*
     @SpringBootTest 가 아니라 @DataJpaTest 로 하면
@@ -39,7 +39,11 @@ public class BoardRepTests {
      */
 
     //@Autowired
-    private BoardService boardService;
+    //private BoardService boardService;
+
+    @Autowired
+    private JPAQueryFactory jpaQueryFactory;
+
 
 
     @Test

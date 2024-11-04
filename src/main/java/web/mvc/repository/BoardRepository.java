@@ -3,13 +3,15 @@ package web.mvc.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 import web.mvc.domain.Board;
 
 import java.util.List;
 
 // 스프링 jpa -> 이렇게 만들면 기본 쿼리는 모두 만들어줌, 커스텀 쿼리는 따로 만들어야함
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long>
+        , QuerydslPredicateExecutor<Board> {
 /*
 JpaRepository 는 jpa 는 이 인터페이스를 구현하는 기본적인 CRUD 메소드를 자동으로 제공함
 사용자가 바로
