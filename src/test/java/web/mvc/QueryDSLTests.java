@@ -25,6 +25,9 @@ public class QueryDSLTests {
 
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
+    /*
+    QueryDSLConfig 에서 getQueryFactory() 의 빈을 주입받음
+     */
     @Autowired
     private BoardRepository boardRepository;
 
@@ -62,7 +65,11 @@ public class QueryDSLTests {
     @Test
     @DisplayName("QueryDSL 조건 테스트")
     public void queryDSL2() {
-        QBoard board = QBoard.board; // Board 클래스이기 때문에 QBoard.board -> User 클래스였다면 QUser.user
+        QBoard board = QBoard.board; /*
+        Board 클래스이기 때문에 QBoard.board -> User 클래스였다면 QUser.user
+        build.gradle 이나 pom.xml 에 queryDSL 을 추가했기 때문에 자동으로 생긴다.
+        board 클래스에는 @Entity 가 있고
+        */
         List<Board> list = jpaQueryFactory
                 .selectFrom(board)
                 .where(board.bno.lt(50L).or(board.title.eq("제목80"))).fetch();
@@ -145,9 +152,14 @@ public class QueryDSLTests {
      */
 
     @Test
-    public void translateDTO(){
+    public void translateDTO(){// 일반적으로 이런 변환 함수는 서비스 계층에 위치, 리포지터리에서 엔티티로 받아서 서비스 게층에서 변환
         QBoard board = QBoard.board;
 
+        /*
+        queryDSL 을 사용하지 않으면 dto 코드에서 from 함수를 통해 엔티티를 dto 로 변환
+        from 함수는 간단한 겨웅에 dto 코드에 들어간다
+        Projections 코드는 서비스에 들어간다
+         */
         List<BoardDTO> list = jpaQueryFactory
                 .select(Projections.fields(BoardDTO.class,
                         board.bno,

@@ -23,9 +23,11 @@ public class QueryDSLConfig {
         log.info("getQueryFactory call..");
         log.info("enetityManager = {}",entityManager);
 
-
-
         return new JPAQueryFactory(entityManager);
     }
+    /*
+    JPAQueryFactory는 QueryDSL의 쿼리를 생성할 때 필수적인 클래스로,
+    entityManager를 사용하여 데이터베이스와의 연결을 활용합니다.
+     */
 
 }
